@@ -1,0 +1,29 @@
+.login-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+.login-form input{
+    background-color: var(--card-color);
+    display: block;
+    margin-bottom: 0.5em;
+    border-radius: 5px;
+    padding: 0.5em;
+    font-size: 1em;
+}
+.login-form button{
+    font-size: 1em;
+    padding: 0.3em;
+    border-radius: 5px;
+    border: 1px solid var(--btn-color);
+    color: var(--btn-color);
+    box-shadow: 0px 1px 6px -1px rgba(0,0,0,0.4);
+}
+.login-form button:hover{
+    background-color: var(--btn-color);
+    color: var(--bg-color);
+}
