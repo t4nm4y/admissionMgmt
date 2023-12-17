@@ -12,10 +12,10 @@ const pool = new Pool({
       },
 });
 
-// Function to create tables
+
 const createTables = async () => {
     try {
-      // Create Batch table
+      // Creating Batch table
       await pool.query(`
         CREATE TABLE IF NOT EXISTS Batch (
           batch_id SERIAL PRIMARY KEY,
@@ -29,15 +29,16 @@ const createTables = async () => {
       ON CONFLICT DO NOTHING;
     `);
   
-      // Create User table
+      // Creating User table
       await pool.query(`
         CREATE TABLE IF NOT EXISTS Users (
           user_id SERIAL PRIMARY KEY,
+          user_pswd VARCHAR(255) NOT NULL,
           name VARCHAR(255) NOT NULL,
           age INT CHECK (age BETWEEN 18 AND 65) NOT NULL,
           batch_id INT REFERENCES Batch(batch_id) NOT NULL,
           enrollment_date DATE NOT NULL,
-          last_payment_month DATE NOT NULL,
+          last_payment_date DATE NOT NULL,
           payment_status VARCHAR(20) DEFAULT 'pending'
         );
       `);
