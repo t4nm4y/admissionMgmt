@@ -64,7 +64,7 @@ const getUsers = async (req, res) => {
 };
 
 const getUserDetails = async (req, res) => {
-    const {user_name} = req.params;
+    const { user_name } = req.params;
     if (!user_name) {
         return res.status(400).json({ error: 'username is required.' });
     }
@@ -96,7 +96,7 @@ const getUserDetails = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const {user_name} = req.params;
+        const { user_name } = req.params;
         if (!user_name) {
             return res.status(400).json({ error: 'username is required.' });
         }
@@ -151,13 +151,12 @@ const getUsersWithCompletedPayment = async (req, res) => {
 
 const getUsersofBatch = async (req, res) => {
     try {
-        const {batch_id} = req.params;
-        // Check if batch_id is provided
+        const { batch_id } = req.params;
+
         if (!batch_id) {
             return res.status(400).json({ error: 'Batch ID is required.' });
         }
 
-        // Query to get users based on batch_id
         const query = `
       SELECT u.user_id, u.age, u.user_name, b.batch_time, u.enrollment_date, u.last_payment_date, u.payment_status
       FROM "Users" u
@@ -182,12 +181,12 @@ const addUser = async (req, res) => {
         if (!user_name || !user_pswd || !age || !batch_id) {
             return res.status(400).json({ error: 'username, password, age, batch_id all are required.' });
         }
+
         // Check if user_name already exists
         const checkUserQuery = 'SELECT COUNT(*) FROM "Users" WHERE "user_name" = $1';
         const checkUserResult = await pool.query(checkUserQuery, [user_name]);
 
         if (checkUserResult.rows[0].count > 0) {
-            // User_name already exists, return an error response
             return res.status(400).json({ error: 'User already exists. Please log in.' });
         }
 
@@ -211,6 +210,7 @@ const changeBatchByUser = async (req, res) => {
         if (!batch_id || !user_name) {
             return res.status(400).json({ error: 'Batch ID, username is required.' });
         }
+
         //user can only change batch on the first day of a month.
         const currentDate = new Date();
         const isFirstDayOfMonth = currentDate.getDate() === 1;
@@ -238,7 +238,7 @@ const changeBatchByUser = async (req, res) => {
 
 const submitPaymentRequestByUser = async (req, res) => {
     try {
-        const {user_name} = req.params;
+        const { user_name } = req.params;
         if (!user_name) {
             return res.status(400).json({ error: 'username is required.' });
         }

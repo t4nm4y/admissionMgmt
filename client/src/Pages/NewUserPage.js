@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 
 function NewUserPage() {
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     age: '',

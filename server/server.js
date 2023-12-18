@@ -37,6 +37,7 @@ const updatePaymentStatusOnFirstDay = async () => {
 };
 
 updatePaymentStatusOnFirstDay();
+
 // Schedule the task to run daily ie. run every 24 hours
 setInterval(updatePaymentStatusOnFirstDay, 24 * 60 * 60 * 1000);
 
@@ -45,7 +46,7 @@ const PORT = process.env.PORT || 3002;
 
 // creating the db before starting the server
 createTables().then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
   });
+});

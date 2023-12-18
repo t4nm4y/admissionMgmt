@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment,getUsersofBatch,
-submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login, fetchAll, getUserDetails } = require('../controllers/controllers');
+const { getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment, getUsersofBatch,
+    submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login,
+    fetchAll, getUserDetails } = require('../controllers/controllers');
 
 router.post('/login', login)
 router.get('/getBatches', getBatches);
