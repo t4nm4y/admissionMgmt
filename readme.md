@@ -93,18 +93,26 @@ The batch_id is the Foreign key of the Users table and the Primary key of the Ba
 
 ## Webpages and Screenshots of the Frontend:
 1. Login Page:
-![Screenshot_20231218_221146](https://github.com/t4nm4y/admissionMgmt/assets/88146479/04925eed-6e67-4fc7-907d-bf050fa4c3cb)
    
-2. Home Page:
+![Screenshot_20231218_221146](https://github.com/t4nm4y/admissionMgmt/assets/88146479/04925eed-6e67-4fc7-907d-bf050fa4c3cb)
+
+   
+3. Home Page:
+   
 ![Screenshot_20231218_221206](https://github.com/t4nm4y/admissionMgmt/assets/88146479/859835dc-e0f6-4385-bb7e-b85ac5d14c89)
 
-3. Admin Page:
+
+5. Admin Page:
+   
 ![Screenshot_20231218_221241](https://github.com/t4nm4y/admissionMgmt/assets/88146479/4e87f831-e8e0-4cff-8f1a-38b156d5fa19)
 
 ![Screenshot_20231218_221259](https://github.com/t4nm4y/admissionMgmt/assets/88146479/15625d33-8589-46bc-8180-9dddfc91db0f)
 
+
 4. Add New User Page:
+
 ![Screenshot_20231218_221347](https://github.com/t4nm4y/admissionMgmt/assets/88146479/2e469c1e-99de-4453-adf9-65f443ee4aef)
+
 
 ### Made with ❤️ by Tanmay Kumar.
 
