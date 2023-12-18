@@ -1,6 +1,6 @@
 
 # Admission Management Application
-A full-stack application where user can register for yoga classes, and the admin can manage these users and the batches. 
+This is a full-stack application designed to facilitate user registration for yoga classes. The administrators can manage both user registrations and class batches. The application is backed by a robust SQL database, ensuring efficient data storage and retrieval for a smooth user experience. 
 
 It uses JSON Web Tokens (JWT) for authentication, eliminating the need for the user to enter their username and password repeatedly for each query. Additionally, JWTs provide a way to maintain state information without the need for server-side sessions.
 
