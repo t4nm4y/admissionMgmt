@@ -66,8 +66,8 @@ React.js, Express.js, Node.js, HTML, CSS, SQL
 2. A user will have to pay the fees every month. So the payment status automatically gets reset to "pending" at the first day of each month for all the users. A user can complete the payment at any day of the month.
 3. There are a total of 4 batches a day namely 6-7AM, 7-8AM, 8-9AM and 5-6PM. A user can only change the batch at the first day of the next month.
 
-### Entity-Relationship (ER) Diagram
-#### Entities:
+## Entity-Relationship (ER) Diagram
+### Entities:
 TABLE 1 Users:
 | COLUMN NAME | TYPE | CONSTRAINTS |
 | :-------- | :-----------| :----------------|
@@ -88,8 +88,23 @@ TABLE 2 Batches:
 
 The batch_id is the Foreign key of the Users table and the Primary key of the Batches table.
 
-#### Relationships:
-"Users" and "Batches" have a Many-to-One relationship (each user belongs to one batch, but a batch can have multiple users).
+### Relationships:
+"Users" and "Batches" have a *Many-to-One* relationship (each user belongs to one batch, but a batch can have multiple users).
+
+## Webpages and Screenshots of the Frontend:
+1. Login Page:
+![Screenshot_20231218_221146](https://github.com/t4nm4y/admissionMgmt/assets/88146479/04925eed-6e67-4fc7-907d-bf050fa4c3cb)
+   
+2. Home Page:
+![Screenshot_20231218_221206](https://github.com/t4nm4y/admissionMgmt/assets/88146479/859835dc-e0f6-4385-bb7e-b85ac5d14c89)
+
+3. Admin Page:
+![Screenshot_20231218_221241](https://github.com/t4nm4y/admissionMgmt/assets/88146479/4e87f831-e8e0-4cff-8f1a-38b156d5fa19)
+
+![Screenshot_20231218_221259](https://github.com/t4nm4y/admissionMgmt/assets/88146479/15625d33-8589-46bc-8180-9dddfc91db0f)
+
+4. Add New User Page:
+![Screenshot_20231218_221347](https://github.com/t4nm4y/admissionMgmt/assets/88146479/2e469c1e-99de-4453-adf9-65f443ee4aef)
 
 ### Made with ❤️ by Tanmay Kumar.
 
