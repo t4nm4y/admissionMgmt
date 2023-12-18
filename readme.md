@@ -6,6 +6,14 @@ It uses JSON Web Tokens (JWT) for authentication, eliminating the need for the u
 
 It has many other features which are all listed in the Backend API References below.
 
+The website is hosted here: https://yoga-classes-tk.onrender.com/
+
+You can login as an admin by these credentials:
+
+username: admin
+
+password: admin1234
+
 ## Tech-Stack used
 React.js, Express.js, Node.js, HTML, CSS, SQL
 
