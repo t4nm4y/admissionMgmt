@@ -91,6 +91,11 @@ The batch_id is the Foreign key of the Users table and the Primary key of the Ba
 ### Relationships:
 "Users" and "Batches" have a *Many-to-One* relationship (each user belongs to one batch, but a batch can have multiple users).
 
+### Handmade ER Diagram:
+
+![er diag](https://github.com/t4nm4y/admissionMgmt/assets/88146479/c691035f-9f56-4353-a4e3-42534e479fe1)
+
+
 ## Webpages and Screenshots of the Frontend:
 1. Login Page:
    
