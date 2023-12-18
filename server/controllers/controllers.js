@@ -4,7 +4,9 @@ const jwt = require('jsonwebtoken');
 const login = async (req, res) => {
     try {
         const { user_name, user_pswd } = req.body;
-
+        if (!user_name || !user_pswd) {
+            return res.status(400).json({ error: 'username, password are required.' });
+        }
         if (user_name === 'admin') {
             if (user_pswd !== process.env.ADMIN_PSWD) {
                 return res.status(403).json({ error: 'Authentication failed' });
@@ -13,7 +15,7 @@ const login = async (req, res) => {
         else {
 
             // Verify user credentials against the database
-            const userQuery='SELECT * FROM "Users" WHERE user_name = $1';
+            const userQuery = 'SELECT * FROM "Users" WHERE user_name = $1';
             const userResult = await pool.query(userQuery, [user_name]);
             if (userResult.rows.length === 0) {
                 return res.status(401).json({ error: 'User not found!' });
@@ -62,7 +64,10 @@ const getUsers = async (req, res) => {
 };
 
 const getUserDetails = async (req, res) => {
-    const user_name = req.params.username;
+    const {user_name} = req.params;
+    if (!user_name) {
+        return res.status(400).json({ error: 'username is required.' });
+    }
     try {
         const query = `
                 SELECT
@@ -91,7 +96,10 @@ const getUserDetails = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     try {
-        const user_name = req.params.username;
+        const {user_name} = req.params;
+        if (!user_name) {
+            return res.status(400).json({ error: 'username is required.' });
+        }
         const deleteQuery = `
         DELETE FROM "Users"
         WHERE user_name = $1
@@ -141,11 +149,39 @@ const getUsersWithCompletedPayment = async (req, res) => {
     }
 };
 
+const getUsersofBatch = async (req, res) => {
+    try {
+        const {batch_id} = req.params;
+        // Check if batch_id is provided
+        if (!batch_id) {
+            return res.status(400).json({ error: 'Batch ID is required.' });
+        }
+
+        // Query to get users based on batch_id
+        const query = `
+      SELECT u.user_id, u.age, u.user_name, b.batch_time, u.enrollment_date, u.last_payment_date, u.payment_status
+      FROM "Users" u
+      JOIN "Batches" b ON u.batch_id = b.batch_id
+      WHERE u.batch_id = $1
+    `;
+        const values = [batch_id];
+        const result = await pool.query(query, values);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error('Error fetching users by batch:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
+    }
+};
+
 const addUser = async (req, res) => {
     try {
-        console.log("data received:", req.body);
+        // console.log("data received:", req.body);
         const { user_name, age, batch_id, user_pswd } = req.body;
 
+        if (!user_name || !user_pswd || !age || !batch_id) {
+            return res.status(400).json({ error: 'username, password, age, batch_id all are required.' });
+        }
         // Check if user_name already exists
         const checkUserQuery = 'SELECT COUNT(*) FROM "Users" WHERE "user_name" = $1';
         const checkUserResult = await pool.query(checkUserQuery, [user_name]);
@@ -172,6 +208,17 @@ const changeBatchByUser = async (req, res) => {
     try {
 
         const { batch_id, user_name } = req.body;
+        if (!batch_id || !user_name) {
+            return res.status(400).json({ error: 'Batch ID, username is required.' });
+        }
+        //user can only change batch on the first day of a month.
+        const currentDate = new Date();
+        const isFirstDayOfMonth = currentDate.getDate() === 1;
+        if (!isFirstDayOfMonth) {
+            return res.status(400).json({
+                error: "You can only change your batch on the 1st day of the next month.",
+            });
+        }
 
         const updateQuery = `
         UPDATE "Users"
@@ -191,7 +238,10 @@ const changeBatchByUser = async (req, res) => {
 
 const submitPaymentRequestByUser = async (req, res) => {
     try {
-        const user_name = req.params.username;
+        const {user_name} = req.params;
+        if (!user_name) {
+            return res.status(400).json({ error: 'username is required.' });
+        }
         const updateQuery = `
         UPDATE "Users"
         SET payment_status = 'completed',
@@ -201,28 +251,27 @@ const submitPaymentRequestByUser = async (req, res) => {
 
         const result = await pool.query(updateQuery, [user_name]);
 
-        res.json({ message: 'Payment done successfully' , result});
+        res.json({ message: 'Payment done successfully', result });
     } catch (error) {
         console.error('Error submitting payment:', error);
         res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
-const describe = async (req, res) => {
+const fetchAll = async (req, res) => {
     try {
         const query = `
-        SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'Users';
-        `;
-
+        SELECT * FROM "Users"
+    `;
         const result = await pool.query(query);
         res.json(result.rows);
     } catch (error) {
-        console.error('Error', error);
+        console.error('Error fetching users:', error);
         res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
 module.exports = {
-    getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment,
-    submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login, describe, getUserDetails
+    getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment, fetchAll, getUsersofBatch,
+    submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login, getUserDetails
 };

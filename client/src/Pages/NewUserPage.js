@@ -33,14 +33,12 @@ function NewUserPage() {
       });
 
       if (response.ok) {
-        const result = await response.json();
         toast.success("User registered successfully. Please login.");
-        console.log('User added successfully:', result);
         navigate('/login');
       } else {
         const errorData = await response.json();
         console.error('Error adding user:', errorData.error);
-        setError(errorData.error);
+        toast.error(errorData.error);
       }
     } catch (error) {
       console.error('Error adding user:', error.message);
@@ -85,7 +83,6 @@ function NewUserPage() {
         <button type="submit">Complete Payment and Register</button>
         <button onClick={() => navigate('/login')}>Existing User Log In</button>
       </form>
-      {error && <p className='error_msg'>{error}</p>}
       <PulseLoader
         loading={loading}
         color={"#ACBBBF"}

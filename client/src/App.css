@@ -4,9 +4,6 @@ body{
   --btn-color: #66fcf1;
   --card-color: #3e3e3e61;
 }
-.error_msg{
-  color: #ff4e4e;
-}
 
 .logout{
   --btn-color: #ff4e4e;
@@ -43,7 +40,7 @@ input{
 
 .mainWrap{
   display: flex;
-  min-height: 100vh;
+  min-height: 92vh;
   height: fit-content;
   flex-direction: column;
   align-items: center;

@@ -71,6 +71,7 @@ const HomePage = () => {
       const response = await fetch(`${BACKEND_URL}/submitPayment/${username}`);
 
       if (response.ok) {
+        fetchUserDetails();
         toast.success('Payment done successfully.');
         return;
       }

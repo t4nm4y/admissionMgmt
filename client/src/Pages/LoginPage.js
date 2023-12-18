@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PulseLoader } from 'react-spinners'
+import toast from 'react-hot-toast';
 
 function Login() {
 
   const [loading, setLoading] = useState(false)
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
-  const [error, setError] = useState('');
   const navigate = useNavigate();
   const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('');
     if(!username || !password){
-      setError("Username and password should not be empty!");
+      toast.error("Username and password should not be empty!");
       return;
     }
     setLoading(true)
@@ -40,7 +39,7 @@ function Login() {
       } else {
         const errorData = await response.json();
         console.error('Error while login:', errorData.error);
-        setError(errorData.error);
+        toast.error(errorData.error);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -64,7 +63,6 @@ function Login() {
           <button onClick={() => navigate('/addUser')}>New User</button>
         </div>
       </form>
-        {error && <p className="error_msg">{error}</p>}
       <PulseLoader
         loading={loading}
         color={"#ACBBBF"}
