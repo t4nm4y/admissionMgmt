@@ -1,38 +1,42 @@
-.App {
-  text-align: center;
+body{
+  --bg-color:#1a1a1a;
+  --text-color:#FFFBFB;
+  --btn-color: #66fcf1;
+  --card-color: #3e3e3e61;
+}
+.error_msg{
+  color: rgb(255, 74, 74);
+}
+button{
+  background-color: transparent;
+  font-size: 1em;
+  padding: 0.3em;
+  border-radius: 5px;
+  border: 1px solid var(--btn-color);
+  color: var(--btn-color);
+  box-shadow: 0px 1px 6px -1px rgba(0,0,0,0.4);
+}
+button:hover{
+  background-color: var(--btn-color);
+  color: var(--bg-color);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+input{
+  background-color: #ffffff;
+  display: block;
+  margin-bottom: 0.5em;
+  border-radius: 5px;
+  padding: 0.5em;
+  font-size: 1em;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.mainWrap{
   display: flex;
+  min-height: 100vh;
+  height: fit-content;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }

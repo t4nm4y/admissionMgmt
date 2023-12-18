@@ -1,3 +1,5 @@
-.mainWrap{
-  
+.batch_row{
+    display: flex;
+    justify-content: space-evenly;
+    width: 23em;
 }
