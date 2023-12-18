@@ -1,5 +1,7 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+
 import HomePage from './Pages/HomePage';
 import LoginPage from './Pages/LoginPage';
 import NewUserPage from './Pages/NewUserPage';
@@ -13,14 +15,14 @@ function App() {
         <Toaster position="top-center"></Toaster>
     </div>
     <Header/>
-      <BrowserRouter>
+    <HashRouter>
         <Routes>
-          <Route path='/' element={<HomePage/>}></Route>
-          <Route path='/admin' element={<AdminPage/>}></Route>
-          <Route path='/login' element={<LoginPage/>}></Route>
-          <Route path='/addUser' element={<NewUserPage/>}></Route>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/addUser" element={<NewUserPage />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
