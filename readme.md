@@ -2,7 +2,9 @@
 # Admission Management Application
 A full-stack application where user can register for yoga classes, and the admin can manage these users and the batches. 
 
-It has many features which are all listed in the Backend API References below.
+It uses JSON Web Tokens (JWT) for authentication, eliminating the need for the user to enter their username and password repeatedly for each query. Additionally, JWTs provide a way to maintain state information without the need for server-side sessions.
+
+It has many other features which are all listed in the Backend API References below.
 
 ## Tech-Stack used
 React.js, Express.js, Node.js, HTML, CSS, SQL
