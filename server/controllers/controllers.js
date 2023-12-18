@@ -4,22 +4,28 @@ const jwt = require('jsonwebtoken');
 const login = async (req, res) => {
     try {
         const { user_name, user_pswd } = req.body;
-        
-        if(user_name==='admin'){
-            if(user_pswd!==process.env.ADMIN_PSWD){
-              return res.status(403).json({ error: 'Authentication failed' });
+
+        if (user_name === 'admin') {
+            if (user_pswd !== process.env.ADMIN_PSWD) {
+                return res.status(403).json({ error: 'Authentication failed' });
             }
-          }
-        else{
-
-        // Verify user credentials against the database
-        const userQuery = 'SELECT * FROM "Users" WHERE user_name = $1 AND user_pswd = $2';
-        const userResult = await pool.query(userQuery, [user_name, user_pswd]);
-
-        if (userResult.rows.length === 0) {
-            return res.status(401).json({ error: 'Invalid credentials' });
         }
-    }
+        else {
+
+            // Verify user credentials against the database
+            const userQuery='SELECT * FROM "Users" WHERE user_name = $1';
+            const userResult = await pool.query(userQuery, [user_name]);
+            if (userResult.rows.length === 0) {
+                return res.status(401).json({ error: 'User not found!' });
+            }
+
+            const authQuery = 'SELECT * FROM "Users" WHERE user_name = $1 AND user_pswd = $2';
+            const authResult = await pool.query(authQuery, [user_name, user_pswd]);
+
+            if (authResult.rows.length === 0) {
+                return res.status(401).json({ error: 'Wrong Password!' });
+            }
+        }
 
         // If credentials are valid, generate a JWT token
         const user = { user_name, user_pswd };
@@ -29,18 +35,29 @@ const login = async (req, res) => {
         res.json({ token });
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
 const getUsers = async (req, res) => {
     try {
-        const query = 'SELECT * FROM "Users"';
+        const query = `
+        SELECT
+        u.user_id,
+        u.user_name,
+        u.age,
+        b.batch_time,
+        u.enrollment_date,
+        u.last_payment_date,
+        u.payment_status
+    FROM "Users" u
+    JOIN "Batches" b ON u.batch_id = b.batch_id
+    `;
         const result = await pool.query(query);
         res.json(result.rows);
     } catch (error) {
-        console.error('Error executing query:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -68,7 +85,7 @@ const getUserDetails = async (req, res) => {
         }
     } catch (error) {
         console.error('Error fetching user details:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -84,8 +101,8 @@ const deleteUser = async (req, res) => {
 
         res.json({ message: 'User deleted successfully', deletedUser: result.rows[0] });
     } catch (error) {
-        console.error('Error deleting user by user:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error deleting user:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -95,8 +112,8 @@ const getBatches = async (req, res) => {
         const result = await pool.query(query);
         res.json(result.rows);
     } catch (error) {
-        console.error('Error executing query:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error fetching batches:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -108,7 +125,7 @@ const getUsersWithPendingPayment = async (req, res) => {
         res.json(result.rows);
     } catch (error) {
         console.error('Error fetching "Users" with pending payment:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -119,8 +136,8 @@ const getUsersWithCompletedPayment = async (req, res) => {
         const result = await pool.query(query, values);
         res.json(result.rows);
     } catch (error) {
-        console.error('Error fetching "Users" with pending payment:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error fetching "Users" with completed payment:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -147,7 +164,7 @@ const addUser = async (req, res) => {
         res.json(result.rows[0]);
     } catch (error) {
         console.error('Error adding user:', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server Error! Make sure you are connected to the internet.' });
     }
 };
 
@@ -167,8 +184,8 @@ const changeBatchByUser = async (req, res) => {
 
         res.json(result.rows[0]);
     } catch (error) {
-        console.error('Error changing batch by user:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error changing batch:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
@@ -184,32 +201,27 @@ const submitPaymentRequestByUser = async (req, res) => {
 
         const result = await pool.query(updateQuery, [user_name]);
 
-        res.json({ message: 'Payment done successfully'});
+        res.json({ message: 'Payment done successfully' , result});
     } catch (error) {
-        console.error('Error submitting payment request by user:', error);
-        res.status(500).send('Internal Server Error');
+        console.error('Error submitting payment:', error);
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
 
 const describe = async (req, res) => {
     try {
-
-        // const query = `
-        // dt "Users"
-        // `;
         const query = `
         SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'Users';
         `;
 
         const result = await pool.query(query);
-
-        // res.json({ message: 'successfull' });
         res.json(result.rows);
     } catch (error) {
         console.error('Error', error);
-        res.status(500).send('Internal Server Error');
+        res.status(500).json({ error: 'Internal Server! Make sure you are connected to the internet.' });
     }
 };
+
 module.exports = {
     getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment,
     submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login, describe, getUserDetails

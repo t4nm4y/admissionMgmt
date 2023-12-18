@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import './NewUserPage.css';
 import { useNavigate } from 'react-router-dom';
-import { PulseLoader } from 'react-spinners'
+import { PulseLoader } from 'react-spinners';
+import toast from 'react-hot-toast';
 
 function NewUserPage() {
   const [loading, setLoading] = useState(false)
@@ -18,8 +19,6 @@ function NewUserPage() {
     e.preventDefault();
     setLoading(true)
     try {
-      console.log('the url:', BACKEND_URL)
-      console.log(formData)
       const response = await fetch(`${BACKEND_URL}/addUser`, {
         method: 'POST',
         headers: {
@@ -35,9 +34,9 @@ function NewUserPage() {
 
       if (response.ok) {
         const result = await response.json();
+        toast.success("User registered successfully. Please login.");
         console.log('User added successfully:', result);
         navigate('/login');
-        alert("User registered successfully. Please login.");
       } else {
         const errorData = await response.json();
         console.error('Error adding user:', errorData.error);
@@ -45,7 +44,6 @@ function NewUserPage() {
       }
     } catch (error) {
       console.error('Error adding user:', error.message);
-      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -81,7 +79,7 @@ function NewUserPage() {
           </select>
         </div>
         <div className='form_row'>
-          <label>Password:</label>
+          <label>Password: &nbsp; </label>
           <input type="password" name="userPassword" value={formData.userPassword} onChange={handleChange} required minLength="8" />
         </div>
         <button type="submit">Complete Payment and Register</button>

@@ -3,10 +3,7 @@ const router = express.Router();
 const { getBatches, getUsers, addUser, changeBatchByUser, getUsersWithPendingPayment,
 submitPaymentRequestByUser, getUsersWithCompletedPayment, deleteUser, login, describe, getUserDetails } = require('../controllers/controllers');
 
-const auth = require('../middleware/auth.js')
-// const jwtAuth = require('../middleware/jwtAuth.js')
-
-router.post('/login', auth, login)
+router.post('/login', login)
 router.get('/getBatches', getBatches);
 router.get('/getUserDetails/:username', getUserDetails);
 router.post('/addUser', addUser);
